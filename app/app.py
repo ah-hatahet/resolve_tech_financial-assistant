@@ -15,6 +15,11 @@ st.set_page_config(page_title="Financial Assistant", layout="wide")
 
 st.title("🏢 Financial Assistant - Real Estate Company")
 
+# AWS credentials from Streamlit secrets
+aws_access_key = st.secrets["aws"]["access_key_id"]
+aws_secret_key = st.secrets["aws"]["secret_access_key"]
+aws_region = st.secrets["aws"]["region"]
+
 # Load Data
 properties = get_properties()
 financials = get_financials()
@@ -63,7 +68,9 @@ st.subheader("🤖 AI Portfolio Summary (AWS Bedrock)")
 if st.button("Summarize Portfolio with AWS Bedrock"):
     with st.spinner("Generating summary..."):
         try:
-            bedrock = boto3.client("bedrock-runtime", region_name="us-east-1")
+            bedrock = boto3.client("bedrock-runtime", region_name=aws_region,
+                aws_access_key_id=aws_access_key,
+                aws_secret_access_key=aws_secret_key)
 
             metro_breakdown = filtered.groupby("metro_area")["revenue"].sum().to_dict()
             type_breakdown = filtered.groupby("property_type")["revenue"].sum().to_dict()
@@ -218,7 +225,9 @@ if st.button("Predict House Value"):
     payload = json.dumps({"features": features})
 
     try:
-        runtime = boto3.client("sagemaker-runtime", region_name="us-east-1")
+        runtime = boto3.client("sagemaker-runtime", region_name=aws_region,
+            aws_access_key_id=aws_access_key,
+            aws_secret_access_key=aws_secret_key)
         response = runtime.invoke_endpoint(
             EndpointName=REGRESSION_ENDPOINT,
             ContentType="application/json",
@@ -298,7 +307,9 @@ if st.button("Predict Subscription"):
     payload = json.dumps(input_data)
 
     try:
-        runtime = boto3.client("sagemaker-runtime", region_name="us-east-1")
+        runtime = boto3.client("sagemaker-runtime", region_name=aws_region,
+            aws_access_key_id=aws_access_key,
+            aws_secret_access_key=aws_secret_key)
         response = runtime.invoke_endpoint(
             EndpointName=CLASSIFICATION_ENDPOINT,
             ContentType="application/json",
@@ -364,4 +375,3 @@ if user_input:
         st.markdown(response)
 
     st.session_state.chat_history.append({"role": "assistant", "content": response})
-    
