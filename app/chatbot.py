@@ -1,16 +1,23 @@
 import os
 import sys
+import json
+import tempfile
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# ── GCP / Vertex AI configuration ──────────────────────────────────────────
-GCP_PROJECT_ID = "financial-assistant-ah" 
-GCP_LOCATION   = "us-central1"
-SA_KEY_PATH    = os.path.join(
-    os.path.dirname(__file__), '..', 'financial-assistant-ah-6a888c6ca467.json'  # ← update this filename
-)
+import streamlit as st
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = SA_KEY_PATH
+# ── GCP / Vertex AI configuration ──────────────────────────────────────────
+GCP_PROJECT_ID = st.secrets["gcp"]["project_id"]
+GCP_LOCATION   = "us-central1"
+
+# Write GCP credentials from Streamlit secrets to a temp file
+_credentials_dict = json.loads(st.secrets["gcp"]["credentials"])
+_tmp = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False)
+json.dump(_credentials_dict, _tmp)
+_tmp.close()
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = _tmp.name
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"]      = "1"
 os.environ["GOOGLE_CLOUD_PROJECT"]           = GCP_PROJECT_ID
 os.environ["GOOGLE_CLOUD_LOCATION"]          = GCP_LOCATION
