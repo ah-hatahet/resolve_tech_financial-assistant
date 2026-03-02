@@ -1,0 +1,11 @@
+google-adk
+google-cloud-aiplatform
+streamlit
+sqlalchemy
+psycopg2-binary
+pandas
+joblib
+boto3
+scikit-learn
+numpy
+requests
