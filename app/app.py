@@ -46,6 +46,9 @@ if selected_type != "All":
 st.header("📊 Filtered Properties")
 st.dataframe(filtered)
 
+
+
+
 # Financial Summary
 st.header("💰 Financial Summary")
 
@@ -59,13 +62,17 @@ col1.metric("Total Revenue", f"${total_revenue:,.0f}")
 col2.metric("Total Net Income", f"${total_net_income:,.0f}")
 col3.metric("Total Expenses", f"${total_expenses:,.0f}")
 
+
+
+
+
 # ----------------------------------
 # 🤖 AWS Bedrock — Portfolio Summary
 # ----------------------------------
 
-st.subheader("🤖 AI Portfolio Summary (AWS Bedrock)")
+st.subheader("🤖 AI Portfolio Summary")
 
-if st.button("Summarize Portfolio with AWS Bedrock"):
+if st.button("Summarize Portfolio"):
     with st.spinner("Generating summary..."):
         try:
             bedrock = boto3.client("bedrock-runtime", region_name=aws_region,
@@ -103,6 +110,8 @@ Provide key insights about performance and portfolio composition."""
 
         except Exception as e:
             st.error(f"Bedrock error: {e}")
+
+
 
 
 # ----------------------------------
@@ -157,6 +166,8 @@ if st.button("Load SEC Filings"):
             st.error(f"Failed to fetch SEC data: {e}")
 
 
+
+
 # ----------------------------------
 # 📰 Company Press Releases
 # ----------------------------------
@@ -185,6 +196,9 @@ if filtered_releases:
             st.write(release["summary"])
 else:
     st.info("No press releases found matching your search.")
+
+
+
 
 # -------------------------------
 # 🏠 Housing Price Prediction
@@ -326,18 +340,7 @@ if st.button("Predict Subscription"):
     except Exception as e:
         st.error(f"SageMaker error: {e}")
 
-# ----------------------------------
-# 💬 AI Chatbot (Local Version)
-# ----------------------------------
 
-#st.header("💬 Financial Assistant Chatbot")
-
-#user_input = st.text_input("Ask a question about financials, properties, or press releases:")
-
-#if st.button("Send"):
-#    if user_input:
-#        response = handle_query(user_input)
-#        st.write(response)
 
 
 # ----------------------------------
