@@ -12,7 +12,7 @@ GCP_PROJECT_ID = st.secrets["gcp"]["project_id"]
 GCP_LOCATION   = "us-central1"
 
 # Write GCP credentials from Streamlit secrets to a temp file
-_credentials_dict = json.loads(st.secrets["gcp"]["credentials"])
+_credentials_dict = dict(st.secrets["gcp"]["credentials"])
 _tmp = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False)
 json.dump(_credentials_dict, _tmp)
 _tmp.close()
