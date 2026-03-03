@@ -70,7 +70,7 @@ col3.metric("Total Expenses", f"${total_expenses:,.0f}")
 # 🤖 AWS Bedrock — Portfolio Summary
 # ----------------------------------
 
-st.subheader("🤖 AI Portfolio Summary")
+st.subheader("Portfolio Summary")
 
 if st.button("Summarize Portfolio"):
     with st.spinner("Generating summary..."):
@@ -263,7 +263,7 @@ if st.button("Predict House Value"):
 # ----------------------------------
 
 
-st.header("🏦 Predict Bank Subscription (Classification)")
+st.header("🏦 Predict Bank Subscription")
 
 CLASSIFICATION_ENDPOINT = "bank-classification-endpoint"
 
@@ -347,7 +347,7 @@ if st.button("Predict Subscription"):
 # 💬 AI Chatbot — Powered by Vertex AI ADK
 # ----------------------------------
 
-st.header("💬 Financial Assistant Chatbot (Vertex AI ADK)")
+st.header("💬 Financial Assistant Chatbot")
 
 # Keep conversation history across reruns
 if "chat_history" not in st.session_state:
